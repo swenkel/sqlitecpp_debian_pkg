@@ -1,0 +1,25 @@
+Source: sqlitecpp
+Maintainer: None
+Uploaders: Who cares <who.cares@tld>
+Priority: optional
+Build-Depends: ant [!hppa !hurd-any !kfreebsd-any],
+               cmake,
+               debhelper-compat (= 13),
+               libsqlite3-dev,
+               libsqlite3-0,
+               doxygen,
+               ninja-build
+Standards-Version: 3.1.1.
+Homepage: https://opencv.org
+Rules-Requires-Root: no
+
+Package: sqlitecpp
+Architecture: any
+Multi-Arch: foreign
+Section: libs
+Depends: libsqlite3-dev,
+	 libsqlite3-0,
+         ${misc:Depends},
+         ${shlibs:Depends}
+Description: SQLiteCpp wrapper for SQLite 3
+

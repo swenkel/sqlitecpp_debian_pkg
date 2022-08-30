@@ -1,0 +1,42 @@
+#!/usr/bin/make -f
+
+export DEB_BUILD_MAINT_OPTIONS=hardening=+all
+
+BUILDDIR = obj-$(DEB_HOST_MULTIARCH)
+
+CMAKE_ARCH_FLAGS :=
+
+
+CMAKE_FLAGS = \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DBUILD_SHARED_LIBS=ON \
+    -DCMAKE_INSTALL_PREFIX='/usr' \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DSQLITECPP_INTERNAL_SQLITE='false' \
+    -DSQLITE_HAS_CODEC='false' \
+    -DSQLITECPP_RUN_CPPLINT='true' \
+    -DSQLITECPP_RUN_CPPCHECK='true'
+
+%:
+	dh $@
+
+
+override_dh_auto_clean:
+	dh_auto_clean -B $(BUILDDIR)
+
+
+override_dh_auto_configure:
+	# dynamicly linked
+	dh_auto_configure -B $(BUILDDIR) \
+		-- $(CMAKE_FLAGS)
+
+
+override_dh_auto_build:
+	# documentation
+	# dynamically linked
+	dh_auto_build -B $(BUILDDIR) -- -j16
+
+
+override_dh_auto_install:
+	dh_auto_install -B $(BUILDDIR)
+
